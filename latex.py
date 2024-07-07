@@ -33,6 +33,7 @@ def get_latex_experience(experiences):
     ans = """
     \section{Experiencia}
     """
+    experiences_str = []
     for dates, role, company, location, description, skills, selected in experiences:
         if not selected:
             continue
@@ -41,12 +42,12 @@ def get_latex_experience(experiences):
         for item in description.split("\n"):
             cv_description += f"\item {item}\n"
         cv_description += "\end{itemize}"
-        ans += Template(
+        experiences_str.append(Template(
             """
         \customcventry{$dates}{{{$company}}}{$role,}{$location}{}{
         {
             $description
-            \\textbf{Habilidades:} $skills
+            Habilidades: $skills
         }}"""
         ).substitute(
             dates=dates,
@@ -55,7 +56,9 @@ def get_latex_experience(experiences):
             location=location,
             description=cv_description,
             skills=skills,
-        )
+        ))
+    
+    ans += "\n\\vspace{10px}".join(experiences_str)
 
     return remove_left_spaces(ans)
 
