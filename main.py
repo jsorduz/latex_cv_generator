@@ -196,6 +196,8 @@ def configure_professional_profile() -> None:
 
 def configure_skills():
     st.header("Skills")
+    if not st.session_state._skills:
+        return
     col1, col2, col3 = st.columns(3)
     for idx, (subsection, skills) in enumerate(st.session_state._skills):
         skill_mod = idx % 3
@@ -213,6 +215,8 @@ def configure_skills():
 
 def configure_experience():
     st.header("Experience")
+    if not st.session_state._experience:
+        return
     for experience in st.session_state._experience:
         experience.selected = st.toggle(str(experience), value=experience.selected)
         st.text(f"{experience.description}\nSkills:{experience.skills}")
@@ -220,6 +224,8 @@ def configure_experience():
 
 def configure_education():
     st.header("Education")
+    if not st.session_state._education:
+        return
     for education in st.session_state._education:
         education.selected = st.toggle(str(education), value=education.selected)
         if education.description:
@@ -228,6 +234,8 @@ def configure_education():
 
 def configure_certification():
     st.header("Certification")
+    if not st.session_state._certification:
+        return
     for certification in st.session_state._certification:
         certification.selected = st.toggle(
             str(certification), value=certification.selected
