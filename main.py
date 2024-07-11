@@ -69,17 +69,12 @@ def load_file(uploaded_file):
     experience = []
     while line != EDUCATION_FLAG:
         if line:
-            if len(experience) < 4:
-                experience.append(line)
-            elif line.startswith(EXPERIENCE_SKILL_FLAG):
-                experience.append(line[len(EXPERIENCE_SKILL_FLAG) :])
-            else:
-                if len(experience) == 4:
-                    experience.append(line)
-                else:
-                    experience[-1] = experience[-1] + "\n" + line
+            experience.append(line)
         else:
-            experiences.append(Experience(*experience))
+            date, role, company, location, *description, skills = experience
+            experiences.append(
+                Experience(date, role, company, location, description, skills)
+            )
             experience = []
         line = get_line(stringio)
     st.session_state._experience = experiences

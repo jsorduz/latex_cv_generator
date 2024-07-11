@@ -1,5 +1,6 @@
 from string import Template
 
+from models import Experience
 from utils import remove_left_spaces
 
 
@@ -27,37 +28,39 @@ def get_latex_skills(skills):
     return remove_left_spaces(ans)
 
 
-def get_latex_experience(experiences):
+def get_latex_experience(experiences: list[Experience]):
     if not experiences:
         return ""
     ans = """
     \section{Experiencia}
     """
     experiences_str = []
-    for dates, role, company, location, description, skills, selected in experiences:
-        if not selected:
+    for experience in experiences:
+        if not experience.selected:
             continue
         # Use the following to use bullet points instead of one paragraph description.
         cv_description = "\\begin{itemize}[leftmargin=0.6cm, label={\\textbullet}]\n"
-        for item in description.split("\n"):
+        for item in experience.description:
             cv_description += f"\item {item}\n"
         cv_description += "\end{itemize}"
-        experiences_str.append(Template(
-            """
+        experiences_str.append(
+            Template(
+                """
         \customcventry{$dates}{{{$company}}}{$role,}{$location}{}{
         {
             $description
-            Habilidades: $skills
+            $skills
         }}"""
-        ).substitute(
-            dates=dates,
-            role=role,
-            company=company,
-            location=location,
-            description=cv_description,
-            skills=skills,
-        ))
-    
+            ).substitute(
+                dates=experience.date,
+                role=experience.role,
+                company=experience.company,
+                location=experience.location,
+                description=cv_description,
+                skills=experience.skills,
+            )
+        )
+
     ans += "\n\\vspace{10px}".join(experiences_str)
 
     return remove_left_spaces(ans)

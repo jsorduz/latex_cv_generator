@@ -60,7 +60,7 @@ class Experience:
     role: str
     company: str
     location: str
-    description: str
+    description: list[str]
     skills: str
     selected: bool = True
 
