@@ -7,10 +7,10 @@ from const import (
     EDUCATION_FLAG,
     END_FLAG,
     EXPERIENCE_FLAG,
-    EXPERIENCE_SKILL_FLAG,
     HEADER,
     NAME,
     PROFILE,
+    REMOVE_FIRST_ELEMENT,
     SKILLS_FLAG,
     SUBSECTION_FLAG,
     TAIL,
@@ -52,7 +52,7 @@ def load_file(uploaded_file):
     while line != EXPERIENCE_FLAG:
         if line:
             if line.startswith(SUBSECTION_FLAG):
-                skill_type = SkillType(line[1:])
+                skill_type = SkillType(line[REMOVE_FIRST_ELEMENT])
                 curr_skills = []
                 skills.append([skill_type, curr_skills])
             else:
